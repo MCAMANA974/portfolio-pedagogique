@@ -1,3 +1,4 @@
+<meta http-equiv="refresh" content="0; url=https://mcamana974.github.io">
 # portfolio-pedagogique
 Ressources pédagogiques — Économie-Gestion STMG et BTS
 Portfolio pédagogique — CAMANA-PATAMA Murielle
