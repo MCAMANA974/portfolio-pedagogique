@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Speed Meeting — STMG Mercatique 2019</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bleu:       #1F4E79;
+      --bleu-md:    #2E75B6;
+      --bleu-clair: #BDD7EE;
+      --or:         #C9A84C;
+      --blanc:      #F7F5F0;
+      --noir:       #0D1B2A;
+      --gris:       #8A9BAD;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--noir);
+      color: var(--blanc);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(31,78,121,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(46,117,182,0.2) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    nav {
+      position: relative;
+      z-index: 10;
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    nav a { text-decoration: none; color: var(--gris); font-size: 0.82rem; letter-spacing: 0.08em; transition: color 0.2s; }
+    nav a:hover { color: var(--blanc); }
+    nav span { color: rgba(255,255,255,0.2); font-size: 0.8rem; }
+
+    .hero {
+      position: relative; z-index: 1;
+      padding: 80px 48px 60px;
+      max-width: 900px; margin: 0 auto;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); border: 1px solid rgba(201,168,76,0.4);
+      padding: 6px 18px; border-radius: 2px; margin-bottom: 32px;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700; line-height: 1.1; color: var(--blanc);
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+    .hero h1 em { color: var(--bleu-clair); font-style: italic; font-weight: 400; }
+    .hero-meta {
+      margin-top: 24px; display: flex; flex-wrap: wrap; gap: 16px;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s;
+    }
+    .meta-badge {
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--bleu-clair); background: rgba(31,78,121,0.3);
+      border: 1px solid rgba(31,78,121,0.5);
+      padding: 6px 14px; border-radius: 2px;
+    }
+    .hero-intro {
+      margin-top: 40px; max-width: 680px;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+    .hero-intro p { font-size: 1.05rem; color: var(--gris); line-height: 1.8; font-weight: 300; }
+    .hero-intro p + p { margin-top: 16px; }
+    .hero-intro strong { color: var(--blanc); font-weight: 500; }
+
+    /* ── TÉMOIGNAGES ── */
+    .temoignages {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 48px 80px;
+    }
+    .temoignages-label {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 16px;
+    }
+    .temoignages-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--blanc); margin-bottom: 40px;
+    }
+    .temoignages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+    .temoignage-card {
+      background: rgba(31,78,121,0.12);
+      border: 1px solid rgba(31,78,121,0.3);
+      border-radius: 4px;
+      padding: 24px 22px;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .temoignage-card:hover {
+      background: rgba(31,78,121,0.22);
+      border-color: rgba(189,215,238,0.3);
+      transform: translateY(-3px);
+    }
+    .temoignage-card::before {
+      content: '"';
+      position: absolute;
+      top: 12px; left: 18px;
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem; color: var(--or);
+      opacity: 0.3; line-height: 1;
+    }
+    .temoignage-texte {
+      font-size: 0.92rem;
+      color: var(--blanc);
+      line-height: 1.7;
+      font-style: italic;
+      padding-top: 20px;
+    }
+    .temoignage-auteur {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--or);
+    }
+
+    /* ── CONTEXTE ── */
+    .contexte {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 48px 60px;
+    }
+    .contexte-box {
+      background: rgba(201,168,76,0.06);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-left: 3px solid var(--or);
+      border-radius: 4px; padding: 28px 32px;
+    }
+    .contexte-box .label {
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 12px;
+    }
+    .contexte-box p { font-size: 0.95rem; color: var(--gris); line-height: 1.8; font-weight: 300; }
+    .contexte-box strong { color: var(--blanc); font-weight: 500; }
+
+    /* ── RESSOURCES ── */
+    .downloads {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 40px 48px 100px;
+    }
+    .downloads-label {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 16px;
+    }
+    .downloads-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--blanc); margin-bottom: 32px;
+    }
+    .dl-grid { display: flex; flex-direction: column; gap: 16px; }
+    .dl-card {
+      display: flex; align-items: center; gap: 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(189,215,238,0.1);
+      border-radius: 4px; padding: 24px 28px;
+      text-decoration: none; color: inherit;
+      transition: all 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    .dl-card::before {
+      content: ''; position: absolute;
+      left: 0; top: 0; width: 3px; height: 0;
+      background: var(--or); transition: height 0.3s ease;
+    }
+    .dl-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(189,215,238,0.25); transform: translateX(4px); }
+    .dl-card:hover::before { height: 100%; }
+    .dl-icon { font-size: 2rem; flex-shrink: 0; }
+    .dl-info { flex: 1; }
+    .dl-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--blanc); margin-bottom: 6px; }
+    .dl-desc { font-size: 0.85rem; color: var(--gris); font-weight: 300; line-height: 1.5; }
+    .dl-badge { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bleu-clair); font-weight: 500; flex-shrink: 0; }
+
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 48px; text-align: center;
+    }
+    footer p { font-size: 0.82rem; color: var(--gris); line-height: 1.8; }
+    footer strong { color: var(--bleu-clair); font-weight: 500; }
+    footer a { color: var(--or); text-decoration: none; font-size: 0.8rem; display: inline-block; margin-top: 12px; letter-spacing: 0.05em; transition: color 0.2s; }
+    footer a:hover { color: var(--blanc); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      nav, .hero, .contexte, .temoignages, .downloads { padding-left: 24px; padding-right: 24px; }
+      .dl-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="https://mcamana974.github.io">← Portfolio</a>
+    <span>/</span>
+    <a href="https://github.com/MCAMANA974/portfolio-pedagogique">GitHub</a>
+    <span>/</span>
+    <span style="color: var(--blanc); font-size: 0.82rem;">Speed Meeting — STMG 2019</span>
+  </nav>
+
+  <div class="hero">
+    <span class="hero-tag">Projet pédagogique · Novembre 2019</span>
+    <h1>Speed Meeting<br><em>avec des professionnels</em></h1>
+    <div class="hero-meta">
+      <span class="meta-badge">Terminale STMG2</span>
+      <span class="meta-badge">Mercatique durable</span>
+      <span class="meta-badge">29 novembre 2019</span>
+      <span class="meta-badge">LGT Félix Eboué · Guyane</span>
+    </div>
+    <div class="hero-intro">
+      <p>
+        Le <strong>29 novembre 2019</strong>, j'ai organisé un Speed Meeting pédagogique
+        avec deux entrepreneurs locaux — <strong>Kreyol Pailles</strong> et <strong>Belpair</strong>
+        — à destination de mes élèves de Terminale STMG2 en Mercatique.
+      </p>
+      <p>
+        Articulé autour des enjeux de la <strong>Mercatique durable</strong>, ce dispositif
+        a conduit les élèves à préparer leurs questions en amont, à confronter leurs
+        apprentissages à la réalité entrepreneuriale et à construire eux-mêmes
+        le sens de leurs savoirs. Un apprentissage mutuel et dynamique, ancré
+        dans le territoire guyanais.
+      </p>
+    </div>
+  </div>
+
+  <!-- CONTEXTE -->
+  <div class="contexte">
+    <div class="contexte-box">
+      <p class="label">Ancrage pédagogique</p>
+      <p>
+        Ce projet s'inscrivait dans le <strong>thème 3 de Mercatique — "Mercatique et société"</strong>
+        et constituait un levier pour le <strong>projet Mercatique</strong> présenté à l'épreuve orale.
+        Les élèves ont préparé leurs questions en lien direct avec le programme, puis rédigé
+        un compte-rendu formalisé. Le projet a fait l'objet d'une <strong>publication sur le site
+        académique</strong> et d'un recueil de témoignages élèves.
+      </p>
+    </div>
+  </div>
+
+  <!-- TÉMOIGNAGES -->
+  <div class="temoignages">
+    <p class="temoignages-label">Paroles d'élèves</p>
+    <h2 class="temoignages-title">Ce qu'ils en ont retenu</h2>
+    <div class="temoignages-grid">
+
+      <div class="temoignage-card">
+        <p class="temoignage-texte">C'était bien. J'ai appris beaucoup de choses. C'était intéressant qu'ils nous parlent de leur entreprise. C'est motivant car ils ont expliqué comment ils ont pu réussir : avoir des rêves et se donner des objectifs pour y arriver.</p>
+        <p class="temoignage-auteur">Cassidy</p>
+      </div>
+
+      <div class="temoignage-card">
+        <p class="temoignage-texte">C'était intéressant ! J'ai appris beaucoup de choses par rapport à leur entreprise. Ça me donne envie d'en parler autour de moi.</p>
+        <p class="temoignage-auteur">Jason</p>
+      </div>
+
+      <div class="temoignage-card">
+        <p class="temoignage-texte">C'était bien ! J'ai aimé tout ce qui concernait le développement durable.</p>
+        <p class="temoignage-auteur">Anonyme</p>
+      </div>
+
+      <div class="temoignage-card">
+        <p class="temoignage-texte">Ça m'a beaucoup motivé à vouloir poursuivre mes études.</p>
+        <p class="temoignage-auteur">Berlisa</p>
+      </div>
+
+      <div class="temoignage-card">
+        <p class="temoignage-texte">C'était bien intéressant ! Innovant ! C'était une première !</p>
+        <p class="temoignage-auteur">Anonyme</p>
+      </div>
+
+      <div class="temoignage-card">
+        <p class="temoignage-texte">C'était assez intéressant, ça m'a inspiré par rapport à leurs parcours. Ils sont un exemple pour les jeunes guyanais.</p>
+        <p class="temoignage-auteur">Anonyme</p>
+      </div>
+
+      <div class="temoignage-card">
+        <p class="temoignage-texte">Bien, très bien même. Ils m'ont inspiré.</p>
+        <p class="temoignage-auteur">Karayan</p>
+      </div>
+
+      <div class="temoignage-card">
+        <p class="temoignage-texte">C'était bien ! Ça m'a motivé.</p>
+        <p class="temoignage-auteur">Yohann</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RESSOURCES -->
+  <div class="downloads">
+    <p class="downloads-label">Ressources</p>
+    <h2 class="downloads-title">Documents du projet</h2>
+    <div class="dl-grid">
+
+      <a class="dl-card"
+         href="https://github.com/MCAMANA974/portfolio-pedagogique/blob/main/speed-meeting_STMG-2019/Speed%20meeting%20du%2029%20novembre_Compte-Rendu.pdf"
+         target="_blank">
+        <span class="dl-icon">📋</span>
+        <div class="dl-info">
+          <div class="dl-title">Compte-rendu du Speed Meeting</div>
+          <p class="dl-desc">Document de synthèse du Speed Meeting du 29 novembre 2019 — déroulé, intervenants, bilan pédagogique.</p>
+        </div>
+        <span class="dl-badge">Compte-rendu</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://github.com/MCAMANA974/portfolio-pedagogique/blob/main/speed-meeting_STMG-2019/Speed%20meeting%20du%2029%20novembre_t%C3%A9moignages%20d'%C3%A9l%C3%A8ves.pdf"
+         target="_blank">
+        <span class="dl-icon">💬</span>
+        <div class="dl-info">
+          <div class="dl-title">Témoignages des élèves</div>
+          <p class="dl-desc">Recueil des témoignages spontanés des élèves de TSTMG2-Mercatique à l'issue de la rencontre.</p>
+        </div>
+        <span class="dl-badge">Témoignages</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://github.com/MCAMANA974/portfolio-pedagogique/blob/main/speed-meeting_STMG-2019/Speed%20Meeting_diaporama.pdf"
+         target="_blank">
+        <span class="dl-icon">🖥️</span>
+        <div class="dl-info">
+          <div class="dl-title">Diaporama de présentation</div>
+          <p class="dl-desc">Support utilisé lors de la séance avec les entrepreneurs — version PDF.</p>
+        </div>
+        <span class="dl-badge">PDF</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://github.com/MCAMANA974/portfolio-pedagogique/blob/main/speed-meeting_STMG-2019/Speed%20Meeting_diaporama.pptx"
+         target="_blank">
+        <span class="dl-icon">📊</span>
+        <div class="dl-info">
+          <div class="dl-title">Diaporama de présentation</div>
+          <p class="dl-desc">Support utilisé lors de la séance avec les entrepreneurs — version PowerPoint modifiable.</p>
+        </div>
+        <span class="dl-badge">PPTX</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://github.com/MCAMANA974/portfolio-pedagogique/blob/main/speed-meeting_STMG-2019/Speed%20meeting_projet%20de_publication%20sur%20site.pdf"
+         target="_blank">
+        <span class="dl-icon">🌐</span>
+        <div class="dl-info">
+          <div class="dl-title">Projet de publication sur site</div>
+          <p class="dl-desc">Document préparatoire à la publication du projet sur le site académique.</p>
+        </div>
+        <span class="dl-badge">Publication</span>
+      </a>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>
+      <strong>CAMANA-PATAMA Murielle</strong><br>
+      Professeure certifiée de Classe Exceptionnelle — Économie-Gestion option Marketing<br>
+      LGT Louis Payen · Saint-Paul · Académie de La Réunion
+    </p>
+    <a href="https://mcamana974.github.io">← Retour au portfolio</a>
+  </footer>
+
+</body>
+</html>
