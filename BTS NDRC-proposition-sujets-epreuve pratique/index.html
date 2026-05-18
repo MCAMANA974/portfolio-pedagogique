@@ -1,1 +1,359 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTS NDRC — Sujets épreuve pratique E5</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bleu:       #1F4E79;
+      --bleu-md:    #2E75B6;
+      --bleu-clair: #BDD7EE;
+      --or:         #C9A84C;
+      --blanc:      #F7F5F0;
+      --noir:       #0D1B2A;
+      --gris:       #8A9BAD;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--noir);
+      color: var(--blanc);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(31,78,121,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(46,117,182,0.2) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    nav {
+      position: relative; z-index: 10;
+      padding: 24px 48px;
+      display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    nav a { text-decoration: none; color: var(--gris); font-size: 0.82rem; letter-spacing: 0.08em; transition: color 0.2s; }
+    nav a:hover { color: var(--blanc); }
+    nav span { color: rgba(255,255,255,0.2); font-size: 0.8rem; }
+
+    .hero {
+      position: relative; z-index: 1;
+      padding: 80px 48px 60px;
+      max-width: 900px; margin: 0 auto;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); border: 1px solid rgba(201,168,76,0.4);
+      padding: 6px 18px; border-radius: 2px; margin-bottom: 32px;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700; line-height: 1.1; color: var(--blanc);
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+    .hero h1 em { color: var(--bleu-clair); font-style: italic; font-weight: 400; }
+    .hero-meta {
+      margin-top: 24px; display: flex; flex-wrap: wrap; gap: 16px;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s;
+    }
+    .meta-badge {
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--bleu-clair); background: rgba(31,78,121,0.3);
+      border: 1px solid rgba(31,78,121,0.5);
+      padding: 6px 14px; border-radius: 2px;
+    }
+    .hero-intro {
+      margin-top: 40px; max-width: 680px;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+    .hero-intro p { font-size: 1.05rem; color: var(--gris); line-height: 1.8; font-weight: 300; }
+    .hero-intro p + p { margin-top: 16px; }
+    .hero-intro strong { color: var(--blanc); font-weight: 500; }
+
+    /* ── COMPÉTENCES ── */
+    .competences {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 48px 60px;
+    }
+    .competences-label {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 16px;
+    }
+    .competences-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--blanc); margin-bottom: 32px;
+    }
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .comp-card {
+      background: rgba(31,78,121,0.12);
+      border: 1px solid rgba(31,78,121,0.3);
+      border-radius: 4px; padding: 22px 20px;
+      transition: all 0.3s ease;
+    }
+    .comp-card:hover {
+      background: rgba(31,78,121,0.22);
+      border-color: rgba(189,215,238,0.3);
+      transform: translateY(-3px);
+    }
+    .comp-icon { font-size: 1.5rem; margin-bottom: 12px; display: block; }
+    .comp-title { font-size: 0.92rem; font-weight: 500; color: var(--blanc); margin-bottom: 8px; }
+    .comp-desc { font-size: 0.82rem; color: var(--gris); line-height: 1.6; font-weight: 300; }
+
+    /* ── APERÇU ── */
+    .apercu {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 48px 60px;
+    }
+    .apercu-label {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 24px;
+    }
+    .apercu-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--blanc); margin-bottom: 32px;
+    }
+    .apercu-img {
+      width: 100%; border-radius: 4px;
+      border: 1px solid rgba(189,215,238,0.15);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      display: block;
+    }
+    .apercu-caption {
+      margin-top: 16px; font-size: 0.82rem;
+      color: var(--gris); font-style: italic; text-align: center;
+    }
+
+    /* ── CONTEXTE ── */
+    .contexte {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 48px 60px;
+    }
+    .contexte-box {
+      background: rgba(201,168,76,0.06);
+      border: 1px solid rgba(201,168,76,0.25);
+      border-left: 3px solid var(--or);
+      border-radius: 4px; padding: 28px 32px;
+    }
+    .contexte-box .label {
+      font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 12px;
+    }
+    .contexte-box p { font-size: 0.95rem; color: var(--gris); line-height: 1.8; font-weight: 300; }
+    .contexte-box strong { color: var(--blanc); font-weight: 500; }
+
+    /* ── DOCUMENT ── */
+    .downloads {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 40px 48px 100px;
+    }
+    .downloads-label {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 16px;
+    }
+    .downloads-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--blanc); margin-bottom: 32px;
+    }
+    .dl-card {
+      display: flex; align-items: center; gap: 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(189,215,238,0.1);
+      border-radius: 4px; padding: 28px 32px;
+      text-decoration: none; color: inherit;
+      transition: all 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    .dl-card::before {
+      content: ''; position: absolute;
+      left: 0; top: 0; width: 3px; height: 0;
+      background: var(--or); transition: height 0.3s ease;
+    }
+    .dl-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(189,215,238,0.25); transform: translateX(4px); }
+    .dl-card:hover::before { height: 100%; }
+    .dl-icon { font-size: 2.5rem; flex-shrink: 0; }
+    .dl-info { flex: 1; }
+    .dl-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--blanc); margin-bottom: 8px; }
+    .dl-desc { font-size: 0.88rem; color: var(--gris); font-weight: 300; line-height: 1.6; }
+    .dl-badge { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bleu-clair); font-weight: 500; flex-shrink: 0; }
+
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 48px; text-align: center;
+    }
+    footer p { font-size: 0.82rem; color: var(--gris); line-height: 1.8; }
+    footer strong { color: var(--bleu-clair); font-weight: 500; }
+    footer a { color: var(--or); text-decoration: none; font-size: 0.8rem; display: inline-block; margin-top: 12px; letter-spacing: 0.05em; transition: color 0.2s; }
+    footer a:hover { color: var(--blanc); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      nav, .hero, .apercu, .contexte, .competences, .downloads { padding-left: 24px; padding-right: 24px; }
+      .dl-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="https://mcamana974.github.io">← Portfolio</a>
+    <span>/</span>
+    <a href="https://github.com/MCAMANA974/portfolio-pedagogique">GitHub</a>
+    <span>/</span>
+    <span style="color: var(--blanc); font-size: 0.82rem;">BTS NDRC — Épreuve pratique E5</span>
+  </nav>
+
+  <div class="hero">
+    <span class="hero-tag">BTS NDRC · Épreuve professionnelle · Coefficient 4</span>
+    <h1>Épreuve E5<br><em>Négociation & Digitalisation</em></h1>
+    <div class="hero-meta">
+      <span class="meta-badge">BTS NDRC</span>
+      <span class="meta-badge">Épreuve E5</span>
+      <span class="meta-badge">Exam blanc · Guyane</span>
+      <span class="meta-badge">LGT Félix Eboué</span>
+    </div>
+    <div class="hero-intro">
+      <p>
+        Élaboré à partir de <strong>situations professionnelles réelles</strong> rencontrées
+        en Guyane, ce sujet d'examen blanc pour l'épreuve pratique E5 du BTS NDRC
+        évalue la capacité des étudiants à négocier et accompagner la relation client
+        en s'appuyant sur des outils et des techniques digitales.
+      </p>
+      <p>
+        Conçu en lien étroit avec les entreprises partenaires du lycée, ce sujet illustre
+        une pédagogie ancrée dans la réalité économique locale — une conviction profonde :
+        <strong>donner du sens aux apprentissages</strong> par l'ancrage dans des situations
+        professionnelles authentiques.
+      </p>
+    </div>
+  </div>
+
+  <!-- COMPÉTENCES ÉVALUÉES -->
+  <div class="competences">
+    <p class="competences-label">Compétences évaluées</p>
+    <h2 class="competences-title">Ce que l'épreuve <em>mesure</em></h2>
+    <div class="comp-grid">
+      <div class="comp-card">
+        <span class="comp-icon">🤝</span>
+        <div class="comp-title">Négocier</div>
+        <p class="comp-desc">Conduire une négociation commerciale en face à face ou à distance avec professionnalisme.</p>
+      </div>
+      <div class="comp-card">
+        <span class="comp-icon">👥</span>
+        <div class="comp-title">Accompagner la relation client</div>
+        <p class="comp-desc">Proposer des solutions adaptées et pérenniser la relation client dans la durée.</p>
+      </div>
+      <div class="comp-card">
+        <span class="comp-icon">💻</span>
+        <div class="comp-title">Exploiter la digitalisation</div>
+        <p class="comp-desc">Utiliser les outils et supports digitaux pour informer, conseiller et fidéliser le client.</p>
+      </div>
+      <div class="comp-card">
+        <span class="comp-icon">📊</span>
+        <div class="comp-title">Proposer de la valeur</div>
+        <p class="comp-desc">Construire et argumenter des solutions à valeur ajoutée pertinentes pour le client.</p>
+      </div>
+      <div class="comp-card">
+        <span class="comp-icon">💬</span>
+        <div class="comp-title">Communiquer</div>
+        <p class="comp-desc">Démontrer une qualité de communication orale et écrite adaptée au contexte professionnel.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- APERÇU -->
+  <div class="apercu">
+    <p class="apercu-label">Aperçu</p>
+    <h2 class="apercu-title">Épreuve E5 — Négociation et Digitalisation de la Relation Client</h2>
+    <img
+      class="apercu-img"
+      src="https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/BTS%20NDRC-proposition-sujets-epreuve%20pratique/apercu_e5.png"
+      alt="Épreuve E5 BTS NDRC - Négociation et Digitalisation"
+      onerror="this.style.display='none'; document.getElementById('apercu-fallback').style.display='block';"
+    >
+    <div id="apercu-fallback" style="display:none; background:rgba(31,78,121,0.15); border:1px solid rgba(31,78,121,0.4); border-radius:4px; padding:40px; text-align:center; color:var(--gris); font-size:0.9rem;">
+      Aperçu disponible dans le fichier PDF ci-dessous
+    </div>
+    <p class="apercu-caption">
+      Épreuve professionnelle · Coefficient 4 · 40 minutes (20 min préparation + 20 min entretien)
+    </p>
+  </div>
+
+  <!-- CONTEXTE -->
+  <div class="contexte">
+    <div class="contexte-box">
+      <p class="label">Contexte pédagogique</p>
+      <p>
+        Ce sujet d'examen blanc a été élaboré dans le cadre de la préparation des étudiants
+        de BTS NDRC à l'épreuve E5 — <strong>épreuve ponctuelle orale de 40 minutes</strong>,
+        passée devant un jury composé d'un enseignant et d'un professionnel.
+        L'évaluation porte sur la capacité à négocier, accompagner et digitaliser la relation
+        client, à partir d'un <strong>dossier remis au candidat</strong>.
+        Ce type de sujet ancré dans des situations guyanaises réelles a permis aux étudiants
+        de se préparer dans un contexte familier, renforçant ainsi leur confiance et leur
+        montée en compétences.
+      </p>
+    </div>
+  </div>
+
+  <!-- DOCUMENT -->
+  <div class="downloads">
+    <p class="downloads-label">Ressource</p>
+    <h2 class="downloads-title">Consulter le sujet en ligne</h2>
+    <a class="dl-card"
+       href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/BTS%20NDRC-proposition-sujets-epreuve%20pratique/Sujets%20E5_P%20pratique%20WP_exam%20blanc973.pdf&embedded=true" target="_blank"
+       target="_blank">
+      <span class="dl-icon">👁️</span>
+      <div class="dl-info">
+        <div class="dl-title">Sujets E5 — Épreuve pratique WP · Examen blanc Guyane</div>
+        <p class="dl-desc">
+          Proposition de sujets pour l'épreuve pratique E5 du BTS NDRC, élaborée à partir de
+          situations professionnelles réelles de Guyane. Document utilisé dans le cadre
+          de l'examen blanc académique.
+        </p>
+      </div>
+      <span class="dl-badge">PDF · E5</span>
+    </a>
+  </div>
+
+  <footer>
+    <p>
+      <strong>CAMANA-PATAMA Murielle</strong><br>
+      Professeure certifiée de Classe Exceptionnelle — Économie-Gestion option Marketing<br>
+      LGT Louis Payen · Saint-Paul · Académie de La Réunion
+    </p>
+    <a href="https://mcamana974.github.io">← Retour au portfolio</a>
+  </footer>
+
+</body>
+</html>
 
