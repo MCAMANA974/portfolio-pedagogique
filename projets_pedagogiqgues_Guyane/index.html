@@ -1,1 +1,429 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projets pédagogiques — Guyane</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bleu:       #1F4E79;
+      --bleu-md:    #2E75B6;
+      --bleu-clair: #BDD7EE;
+      --or:         #C9A84C;
+      --blanc:      #F7F5F0;
+      --noir:       #0D1B2A;
+      --gris:       #8A9BAD;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--noir);
+      color: var(--blanc);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 20%, rgba(31,78,121,0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(46,117,182,0.2) 0%, transparent 60%);
+      pointer-events: none; z-index: 0;
+    }
+    nav {
+      position: relative; z-index: 10;
+      padding: 24px 48px;
+      display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    nav a { text-decoration: none; color: var(--gris); font-size: 0.82rem; letter-spacing: 0.08em; transition: color 0.2s; }
+    nav a:hover { color: var(--blanc); }
+    nav span { color: rgba(255,255,255,0.2); font-size: 0.8rem; }
+
+    .hero {
+      position: relative; z-index: 1;
+      padding: 80px 48px 60px;
+      max-width: 900px; margin: 0 auto;
+    }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); border: 1px solid rgba(201,168,76,0.4);
+      padding: 6px 18px; border-radius: 2px; margin-bottom: 32px;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700; line-height: 1.1; color: var(--blanc);
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+    .hero h1 em { color: var(--bleu-clair); font-style: italic; font-weight: 400; }
+    .hero-meta {
+      margin-top: 24px; display: flex; flex-wrap: wrap; gap: 16px;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.6s;
+    }
+    .meta-badge {
+      font-size: 0.75rem; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--bleu-clair); background: rgba(31,78,121,0.3);
+      border: 1px solid rgba(31,78,121,0.5);
+      padding: 6px 14px; border-radius: 2px;
+    }
+    .hero-intro {
+      margin-top: 40px; max-width: 680px;
+      opacity: 0; animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+    .hero-intro p { font-size: 1.05rem; color: var(--gris); line-height: 1.8; font-weight: 300; }
+    .hero-intro p + p { margin-top: 16px; }
+    .hero-intro strong { color: var(--blanc); font-weight: 500; }
+
+    /* ── APERÇU ── */
+    .apercu {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 48px 60px;
+    }
+    .apercu-label {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 24px;
+    }
+    .apercu-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--blanc); margin-bottom: 32px;
+    }
+    .apercu-img {
+      width: 100%; border-radius: 4px;
+      border: 1px solid rgba(189,215,238,0.15);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+      display: block;
+    }
+    .apercu-caption {
+      margin-top: 16px; font-size: 0.82rem;
+      color: var(--gris); font-style: italic; text-align: center;
+    }
+
+    /* ── PROJETS CARDS ── */
+    .projets {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 48px 60px;
+    }
+    .projets-label {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 16px;
+    }
+    .projets-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--blanc); margin-bottom: 32px;
+    }
+    .projets-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px; margin-bottom: 48px;
+    }
+    .projet-card {
+      background: rgba(31,78,121,0.12);
+      border: 1px solid rgba(31,78,121,0.3);
+      border-radius: 4px; padding: 28px 24px;
+      transition: all 0.3s ease;
+    }
+    .projet-card:hover {
+      background: rgba(31,78,121,0.22);
+      border-color: rgba(189,215,238,0.3);
+      transform: translateY(-3px);
+    }
+    .projet-icon { font-size: 1.8rem; margin-bottom: 16px; display: block; }
+    .projet-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 700;
+      color: var(--blanc); margin-bottom: 10px;
+    }
+    .projet-desc { font-size: 0.87rem; color: var(--gris); line-height: 1.7; font-weight: 300; }
+    .projet-tag {
+      display: inline-block; margin-top: 14px;
+      font-size: 0.7rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--or); font-weight: 500;
+    }
+
+    /* ── DOCUMENTS ── */
+    .downloads {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 48px 100px;
+    }
+    .downloads-label {
+      font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--or); margin-bottom: 16px;
+    }
+    .downloads-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--blanc); margin-bottom: 32px;
+    }
+    .dl-grid { display: flex; flex-direction: column; gap: 16px; }
+    .dl-card {
+      display: flex; align-items: center; gap: 24px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(189,215,238,0.1);
+      border-radius: 4px; padding: 24px 28px;
+      text-decoration: none; color: inherit;
+      transition: all 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    .dl-card::before {
+      content: ''; position: absolute;
+      left: 0; top: 0; width: 3px; height: 0;
+      background: var(--or); transition: height 0.3s ease;
+    }
+    .dl-card:hover { background: rgba(255,255,255,0.06); border-color: rgba(189,215,238,0.25); transform: translateX(4px); }
+    .dl-card:hover::before { height: 100%; }
+    .dl-icon { font-size: 2rem; flex-shrink: 0; }
+    .dl-info { flex: 1; }
+    .dl-title { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--blanc); margin-bottom: 6px; }
+    .dl-desc { font-size: 0.85rem; color: var(--gris); font-weight: 300; line-height: 1.5; }
+    .dl-badge { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--bleu-clair); font-weight: 500; flex-shrink: 0; }
+
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 40px 48px; text-align: center;
+    }
+    footer p { font-size: 0.82rem; color: var(--gris); line-height: 1.8; }
+    footer strong { color: var(--bleu-clair); font-weight: 500; }
+    footer a { color: var(--or); text-decoration: none; font-size: 0.8rem; display: inline-block; margin-top: 12px; letter-spacing: 0.05em; transition: color 0.2s; }
+    footer a:hover { color: var(--blanc); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @media (max-width: 600px) {
+      nav, .hero, .apercu, .projets, .downloads { padding-left: 24px; padding-right: 24px; }
+      .dl-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="https://mcamana974.github.io">← Portfolio</a>
+    <span>/</span>
+    <a href="https://github.com/MCAMANA974/portfolio-pedagogique">GitHub</a>
+    <span>/</span>
+    <span style="color: var(--blanc); font-size: 0.82rem;">Projets pédagogiques — Guyane</span>
+  </nav>
+
+  <div class="hero">
+    <span class="hero-tag">LGT Félix Eboué · Cayenne · 2006 – 2020</span>
+    <h1>Projets pédagogiques<br><em>Guyane</em></h1>
+    <div class="hero-meta">
+      <span class="meta-badge">STMG</span>
+      <span class="meta-badge">BTS NDRC</span>
+      <span class="meta-badge">14 ans d'outre-mer</span>
+      <span class="meta-badge">Guyane · COM</span>
+    </div>
+    <div class="hero-intro">
+      <p>
+        Quatorze années au <strong>LGT Félix Eboué de Cayenne</strong> ont été le terrain
+        de nombreux projets pédagogiques et professionnels, menés auprès d'élèves de STMG
+        et d'étudiants de BTS NDRC dans un contexte multiculturel et plurilingue exigeant.
+      </p>
+      <p>
+        Promotion des sections, séminaire d'intégration, certification Voltaire, ateliers
+        de rénovation pédagogique, animation étudiants-entreprises — autant de projets
+        qui témoignent d'une pédagogie ancrée dans la réalité des territoires d'outre-mer,
+        toujours à la recherche des <strong>leviers et des déclencheurs</strong> qui motivent
+        et engagent les élèves.
+      </p>
+    </div>
+  </div>
+
+  <!-- APERÇU -->
+  <div class="apercu">
+    <p class="apercu-label">Aperçu</p>
+    <h2 class="apercu-title">BTS NDRC — Ateliers étudiants-entreprises · Avril 2019</h2>
+    <img
+      class="apercu-img"
+      src="https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/projets_pedagogiqgues_Guyane/apercu_guyane.png"
+      alt="Brochure BTS NDRC Félix Eboué Guyane 2019"
+      onerror="this.style.display='none'; document.getElementById('apercu-fallback').style.display='block';"
+    >
+    <div id="apercu-fallback" style="display:none; background:rgba(31,78,121,0.15); border:1px solid rgba(31,78,121,0.4); border-radius:4px; padding:40px; text-align:center; color:var(--gris); font-size:0.9rem;">
+      Aperçu disponible dans les documents ci-dessous
+    </div>
+    <p class="apercu-caption">
+      Brochure de promotion BTS NDRC — Lycée Félix Eboué, Cayenne · "Explorons l'or digital"
+    </p>
+  </div>
+
+  <!-- PROJETS EN RÉSUMÉ -->
+  <div class="projets">
+    <p class="projets-label">Vue d'ensemble</p>
+    <h2 class="projets-title">Projets <em>réalisés</em></h2>
+    <div class="projets-grid">
+
+      <div class="projet-card">
+        <span class="projet-icon">🎓</span>
+        <div class="projet-title">Séminaire d'intégration BTS</div>
+        <p class="projet-desc">3 scénarios selon budget : ateliers méthodo, conférences professionnelles, relooking, cinéma-débat. Objectif : stabiliser les effectifs et motiver dès l'entrée en BTS.</p>
+        <span class="projet-tag">BTS NDRC · Intégration</span>
+      </div>
+
+      <div class="projet-card">
+        <span class="projet-icon">✍️</span>
+        <div class="projet-title">Certification Voltaire</div>
+        <p class="projet-desc">Co-portage avec 2 collègues · 70 étudiants BTS NRC et AM. Élaboration du projet pédagogique, du budget prévisionnel et communication aux équipes.</p>
+        <span class="projet-tag">BTS · Orthographe · 2013</span>
+      </div>
+
+      <div class="projet-card">
+        <span class="projet-icon">🏢</span>
+        <div class="projet-title">Animation étudiants-entreprises</div>
+        <p class="projet-desc">Ateliers de professionnalisation BTS NDRC2 avec des entreprises partenaires. Développement des compétences numériques et commerciales en situation réelle.</p>
+        <span class="projet-tag">BTS NDRC · Avril 2019</span>
+      </div>
+
+      <div class="projet-card">
+        <span class="projet-icon">📢</span>
+        <div class="projet-title">Promotion des sections STMG & BTS</div>
+        <p class="projet-desc">Création de supports (dépliant, brochure) · animation dans les collèges et lycées de Cayenne et de Macouria pour promouvoir les filières technologiques.</p>
+        <span class="projet-tag">STMG · BTS · 2013–2018</span>
+      </div>
+
+      <div class="projet-card">
+        <span class="projet-icon">🔧</span>
+        <div class="projet-title">Atelier Rénovation STMG Management</div>
+        <p class="projet-desc">Participation à l'atelier académique de rénovation du programme de Management STMG — Thème 2. Travail en équipe pédagogique.</p>
+        <span class="projet-tag">STMG · Management · Académique</span>
+      </div>
+
+      <div class="projet-card">
+        <span class="projet-icon">🌱</span>
+        <div class="projet-title">Connaissance de soi — Séminaire</div>
+        <p class="projet-desc">Séminaire d'intégration autour de la connaissance de soi, destiné aux étudiants de BTS. Développement personnel et ancrage dans le parcours professionnel.</p>
+        <span class="projet-tag">BTS · Développement personnel</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- DOCUMENTS -->
+  <div class="downloads">
+    <p class="downloads-label">Consultation en ligne</p>
+    <h2 class="downloads-title">Consulter les documents en ligne</h2>
+    <div class="dl-grid">
+
+      <a class="dl-card"
+         href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/projets_pedagogiqgues_Guyane/Animation_%20AT_NDRC2_Guyane.pdf&embedded=true" target="_blank">
+        <span class="dl-icon">🏢</span>
+        <div class="dl-info">
+          <div class="dl-title">Animation Ateliers Étudiants-Entreprises BTS NDRC2</div>
+          <p class="dl-desc">Document de l'animation professionnelle avec les entreprises partenaires — Guyane 2019.</p>
+        </div>
+        <span class="dl-badge">Animation</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/projets_pedagogiqgues_Guyane/Atelier1_R%C3%A9novation%20STMG_Management-Th%C3%A8me2.pdf&embedded=true" target="_blank">
+        <span class="dl-icon">🔧</span>
+        <div class="dl-info">
+          <div class="dl-title">Atelier Rénovation STMG — Management Thème 2</div>
+          <p class="dl-desc">Travaux de l'atelier académique de rénovation du programme de Management STMG.</p>
+        </div>
+        <span class="dl-badge">Rénovation</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/projets_pedagogiqgues_Guyane/Brochure%20BTS%20NDRC%20vf.pdf&embedded=true" target="_blank">
+        <span class="dl-icon">👁️</span>
+        <div class="dl-info">
+          <div class="dl-title">Brochure BTS NDRC</div>
+          <p class="dl-desc">Brochure de promotion de la section BTS NDRC du LGT Félix Eboué — "Explorons l'or digital".</p>
+        </div>
+        <span class="dl-badge">Promotion</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/projets_pedagogiqgues_Guyane/Projet%20d'accueil%20BTS.pdf&embedded=true" target="_blank">
+        <span class="dl-icon">🎓</span>
+        <div class="dl-info">
+          <div class="dl-title">Projet d'accueil BTS</div>
+          <p class="dl-desc">Séminaire d'intégration BTS — scénarios, objectifs pédagogiques, organisation.</p>
+        </div>
+        <span class="dl-badge">Séminaire</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/projets_pedagogiqgues_Guyane/Pr%C3%A9sentation%20des%20sp%C3%A9cialit%C3%A9s_STMG_d%C3%A9pliant.pdf&embedded=true" target="_blank">
+        <span class="dl-icon">📢</span>
+        <div class="dl-info">
+          <div class="dl-title">Dépliant — Spécialités STMG</div>
+          <p class="dl-desc">Support de promotion des spécialités STMG, diffusé dans les collèges et lycées de Cayenne.</p>
+        </div>
+        <span class="dl-badge">STMG · Promotion</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/projets_pedagogiqgues_Guyane/Pr%C3%A9sentation_Section%20STMG%20au%20coll%C3%A8ge_%20Macouria.pdf&embedded=true" target="_blank">
+        <span class="dl-icon">🏫</span>
+        <div class="dl-info">
+          <div class="dl-title">Présentation Section STMG — Collège Macouria</div>
+          <p class="dl-desc">Support de présentation de la section STMG réalisé pour les élèves du collège de Macouria.</p>
+        </div>
+        <span class="dl-badge">Collège · Macouria</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/projets_pedagogiqgues_Guyane/STMG_d%C3%A9pliant2%20F%C3%A9lix%20ebou%C3%A9.pdf&embedded=true" target="_blank">
+        <span class="dl-icon">👁️</span>
+        <div class="dl-info">
+          <div class="dl-title">Dépliant STMG — Félix Eboué</div>
+          <p class="dl-desc">Second dépliant de promotion de la filière STMG du LGT Félix Eboué.</p>
+        </div>
+        <span class="dl-badge">STMG · Promotion</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/projets_pedagogiqgues_Guyane/S%C3%A9minaire%20d'int%C3%A9gration_la%20connaissance%20de%20soi.pdf&embedded=true" target="_blank">
+        <span class="dl-icon">🌱</span>
+        <div class="dl-info">
+          <div class="dl-title">Séminaire — La connaissance de soi</div>
+          <p class="dl-desc">Séminaire d'intégration autour du développement personnel et de la connaissance de soi pour les étudiants BTS.</p>
+        </div>
+        <span class="dl-badge">Développement personnel</span>
+      </a>
+
+      <a class="dl-card"
+         href="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/projets_pedagogiqgues_Guyane/projet%20p%C3%A9dagogique_certification.pdf&embedded=true" target="_blank">
+        <span class="dl-icon">✍️</span>
+        <div class="dl-info">
+          <div class="dl-title">Projet pédagogique — Certification Voltaire</div>
+          <p class="dl-desc">Projet pédagogique complet de la certification Voltaire · 70 étudiants BTS NRC et AM · budget et communication.</p>
+        </div>
+        <span class="dl-badge">Voltaire · 2013</span>
+      </a>
+
+    </div>
+  </div>
+
+  <footer>
+    <p>
+      <strong>CAMANA-PATAMA Murielle</strong><br>
+      Professeure certifiée de Classe Exceptionnelle — Économie-Gestion option Marketing<br>
+      LGT Louis Payen · Saint-Paul · Académie de La Réunion
+    </p>
+    <a href="https://mcamana974.github.io">← Retour au portfolio</a>
+  </footer>
+
+</body>
+</html>
 
