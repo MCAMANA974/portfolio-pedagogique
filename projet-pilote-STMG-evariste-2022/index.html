@@ -1,1 +1,462 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projet Pilote STMG 2022-2023 — Lycée Évariste de Parny</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bleu:      #1a3a5c;
+      --bleu-clair:#2e6da4;
+      --accent:    #e8a020;
+      --texte:     #1c1c1c;
+      --fond:      #fafaf8;
+      --gris:      #6b7280;
+      --carte-bg:  #ffffff;
+      --bordure:   #e5e7eb;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--fond);
+      color: var(--texte);
+      line-height: 1.7;
+    }
+
+    /* ── BANDEAU NAVIGATION ── */
+    nav {
+      background: var(--bleu);
+      padding: 0.75rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+    }
+    nav a {
+      color: #a8c4e0;
+      text-decoration: none;
+    }
+    nav a:hover { color: #fff; }
+    nav span { color: #6b96bb; }
+    nav .current { color: #fff; font-weight: 600; }
+
+    /* ── HERO ── */
+    header {
+      background: linear-gradient(135deg, var(--bleu) 0%, #0f2540 100%);
+      color: #fff;
+      padding: 3.5rem 2rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 70% 50%, rgba(46,109,164,0.35) 0%, transparent 60%);
+    }
+    .hero-meta {
+      position: relative;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #a8c4e0;
+      margin-bottom: 0.75rem;
+    }
+    header h1 {
+      position: relative;
+      font-family: 'Lora', serif;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 600;
+      line-height: 1.25;
+      margin-bottom: 0.5rem;
+    }
+    header h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    header p.subtitle {
+      position: relative;
+      color: #c8ddf0;
+      font-size: 1rem;
+      max-width: 560px;
+      margin: 0 auto 1.5rem;
+    }
+    .tags {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .tag {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #e0edf8;
+      border-radius: 20px;
+      padding: 0.25rem 0.85rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── CONTAINER ── */
+    main { max-width: 860px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+    /* ── SECTION TITRE ── */
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gris);
+      margin: 3rem 0 0.4rem;
+    }
+    h2 {
+      font-family: 'Lora', serif;
+      font-size: 1.55rem;
+      font-weight: 600;
+      color: var(--bleu);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+    }
+    h2 em { font-style: italic; color: var(--bleu-clair); }
+
+    /* ── CONTEXTE ── */
+    .contexte {
+      background: #fff;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      color: var(--texte);
+      box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+    }
+    .contexte p + p { margin-top: 0.75rem; }
+
+    /* ── SPÉCIFICITÉS ── */
+    .specificites {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 2rem;
+    }
+    .spec-item {
+      background: var(--carte-bg);
+      border: 1px solid var(--bordure);
+      border-radius: 8px;
+      padding: 0.85rem 1rem;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    }
+    .spec-item span.icon { font-size: 1.15rem; flex-shrink: 0; }
+
+    /* ── GRILLE OBJECTIFS / CADRE ── */
+    .grid-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .card {
+      background: var(--carte-bg);
+      border: 1px solid var(--bordure);
+      border-radius: 10px;
+      padding: 1.1rem 1.25rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .card h3 {
+      font-family: 'Lora', serif;
+      font-size: 0.95rem;
+      color: var(--bleu);
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .card ul {
+      list-style: none;
+      font-size: 0.87rem;
+      color: #374151;
+    }
+    .card ul li {
+      padding: 0.2rem 0;
+      padding-left: 1rem;
+      position: relative;
+    }
+    .card ul li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    /* ── BILAN ACTIONS ── */
+    .bilan-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+    .bilan-item {
+      background: #eef4fb;
+      border: 1px solid #c8ddf0;
+      border-radius: 20px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.85rem;
+      color: var(--bleu);
+    }
+
+    /* ── PLUS-VALUE ── */
+    .plus-value {
+      background: linear-gradient(135deg, var(--bleu) 0%, #0f2540 100%);
+      color: #fff;
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+    .plus-value .pv-icon { font-size: 2rem; flex-shrink: 0; }
+    .plus-value h3 {
+      font-family: 'Lora', serif;
+      font-size: 1rem;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+    .plus-value p { font-size: 0.92rem; color: #d0e4f5; line-height: 1.6; }
+
+    /* ── BOUTON PDF ── */
+    .pdf-block {
+      margin-bottom: 2.5rem;
+    }
+    .pdf-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--bleu);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      padding: 0.9rem 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 3px 10px rgba(26,58,92,0.25);
+    }
+    .pdf-link:hover {
+      background: var(--bleu-clair);
+      transform: translateY(-2px);
+    }
+    .pdf-link .pdf-icon { font-size: 1.3rem; }
+    .pdf-meta {
+      margin-top: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--gris);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bleu);
+      color: #a8c4e0;
+      text-align: center;
+      padding: 2rem 1.5rem;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+    footer strong { color: #fff; }
+    footer a {
+      color: #a8c4e0;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 0.75rem;
+      border: 1px solid #3a5f82;
+      border-radius: 20px;
+      padding: 0.3rem 1rem;
+      transition: background 0.2s;
+    }
+    footer a:hover { background: rgba(255,255,255,0.08); }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <a href="https://mcamana974.github.io">← Portfolio</a>
+    <span>/</span>
+    <a href="https://github.com/MCAMANA974/portfolio-pedagogique">GitHub</a>
+    <span>/</span>
+    <span class="current">Projet Pilote STMG 2022-2023</span>
+  </nav>
+
+  <!-- HERO -->
+  <header>
+    <p class="hero-meta">Lycée Évariste de Parny · Saint-Paul · La Réunion</p>
+    <h1>Projet Pilote STMG<br><em>2022-2023</em></h1>
+    <p class="subtitle">Document de travail collectif de l'équipe Économie-Gestion — pédagogie innovante et interdisciplinaire en 1<sup>re</sup> STMG</p>
+    <div class="tags">
+      <span class="tag">Juin 2022</span>
+      <span class="tag">1re STMG</span>
+      <span class="tag">Interdisciplinarité</span>
+      <span class="tag">Innovation pédagogique</span>
+      <span class="tag">RSE & Numérique</span>
+      <span class="tag">Équipe Éco-Gestion</span>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- CONTEXTE -->
+    <p class="section-label">Contexte</p>
+    <h2>Genèse du <em>projet</em></h2>
+    <div class="contexte">
+      <p>Ce document de travail, élaboré en juin 2022 par l'équipe Économie-Gestion du lycée Évariste de Parny, pose les fondations d'un <strong>projet pilote centré sur les classes de 1<sup>re</sup> STMG</strong> pour l'année 2022-2023.</p>
+      <p>L'objectif : profiter des effectifs réduits (24 élèves par classe) pour <strong>travailler autrement</strong> — valoriser la filière, renforcer l'interdisciplinarité et placer l'élève au cœur de sa réussite.</p>
+      <p>Il implique toutes les parties prenantes du lycée (direction, DDFPT, vie scolaire, documentalistes, infirmières, CoPsy) en lien avec l'IA-IPR Économie-Gestion.</p>
+    </div>
+
+    <!-- SPÉCIFICITÉS -->
+    <p class="section-label">Territoire & établissement</p>
+    <h2>Nos <em>spécificités</em></h2>
+    <div class="specificites">
+      <div class="spec-item"><span class="icon">🗣️</span><span>Le bilinguisme</span></div>
+      <div class="spec-item"><span class="icon">🏝️</span><span>L'insularité</span></div>
+      <div class="spec-item"><span class="icon">⛰️</span><span>Un lycée dans les hauts de l'ouest</span></div>
+      <div class="spec-item"><span class="icon">🔄</span><span>Une équipe avec un turn-over important</span></div>
+      <div class="spec-item"><span class="icon">📚</span><span>Quatre spécialités en terminales STMG</span></div>
+      <div class="spec-item"><span class="icon">🎓</span><span>Deux BTS (Tourisme, MCO)</span></div>
+    </div>
+
+    <!-- OBJECTIFS -->
+    <p class="section-label">Finalités</p>
+    <h2>Objectifs & <em>capacités</em></h2>
+    <div class="grid-cards">
+      <div class="card">
+        <h3>🎯 Objectifs stratégiques</h3>
+        <ul>
+          <li>Valoriser et rendre visible la filière</li>
+          <li>Développer le travail en équipe et l'interdisciplinarité</li>
+          <li>Rendre l'élève acteur de sa réussite</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🧠 Capacités transversales</h3>
+        <ul>
+          <li>Argumentation écrite et orale</li>
+          <li>Recherche documentaire</li>
+          <li>Maîtrise du numérique (PIX, ENT…)</li>
+          <li>Calcul et maîtrise des chiffres</li>
+          <li>Compréhension des consignes (Bloom)</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🛠️ Pédagogies mobilisées</h3>
+        <ul>
+          <li>Classe inversée, groupes, projets</li>
+          <li>Évaluation par les pairs, autoévaluation</li>
+          <li>Brainstorming, quiz, jeux de rôle, débats</li>
+          <li>Capsules vidéo, concours, exposés</li>
+          <li>Pédagogie positive — confiance en soi</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>🌍 Ouverture sur l'extérieur</h3>
+        <ul>
+          <li>Partenariats avec des organisations locales</li>
+          <li>Visites, interventions de professionnels</li>
+          <li>Stages avec la CCI</li>
+          <li>Projets culturels (ADAGE, cinéma…)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- BILAN ACTIONS DÉJÀ MENÉES -->
+    <p class="section-label">Acquis</p>
+    <h2>Actions déjà <em>menées</em></h2>
+    <div class="bilan-grid">
+      <span class="bilan-item">📢 Conférences & professionnels</span>
+      <span class="bilan-item">🏢 Visites d'entreprises</span>
+      <span class="bilan-item">🎭 Projets culturels ADAGE</span>
+      <span class="bilan-item">🎬 Lycéens au cinéma</span>
+      <span class="bilan-item">🔄 Échanges de classes</span>
+      <span class="bilan-item">📹 Concours vidéo avec UFR</span>
+      <span class="bilan-item">🧩 Classes inversées</span>
+      <span class="bilan-item">📊 PIX — évaluation numérique</span>
+      <span class="bilan-item">📂 Travaux collaboratifs ENT</span>
+      <span class="bilan-item">📖 Recherche documentaire ESIDOC</span>
+      <span class="bilan-item">🧭 Orientation dès la 1re (carnet de bord)</span>
+      <span class="bilan-item">🏆 Participation aux concours</span>
+    </div>
+
+    <!-- PLUS-VALUE -->
+    <div class="plus-value">
+      <span class="pv-icon">✨</span>
+      <div>
+        <h3>Plus-value attendue</h3>
+        <p>Motivation, implication, confiance en soi, renforcement de la relation élèves/professeurs, progression des résultats, ambition.</p>
+      </div>
+    </div>
+
+    <!-- THÈMES SEMESTRIELS -->
+    <p class="section-label">Actions 1re STMG</p>
+    <h2>Projets <em>semestriels</em></h2>
+    <div class="grid-cards">
+      <div class="card">
+        <h3>🌱 Semestre 1 — La RSE</h3>
+        <ul>
+          <li>Monographies d'organisations locales</li>
+          <li>Visites & interventions de partenaires</li>
+          <li>Travail interdisciplinaire autour de la RSE</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>💻 Semestre 2 — Numérique & société</h3>
+        <ul>
+          <li>Les enjeux sociétaux du numérique</li>
+          <li>Approche critique et citoyenne</li>
+          <li>Continuité avec Sciences de Gestion</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- DOCUMENT PDF -->
+    <p class="section-label">Document source</p>
+    <h2>Consulter le <em>document</em></h2>
+    <div class="pdf-block">
+      <a
+        class="pdf-link"
+        href="https://mozilla.github.io/pdf.js/web/viewer.html?file=https://raw.githubusercontent.com/MCAMANA974/portfolio-pedagogique/main/projet-pilote-STMG-evariste-2022/DOCUMENT_DE_TRAVAIL_réunions_mercredi_8_juin_Evariste.pdf"
+        target="_blank"
+        rel="noopener"
+      >
+        <span class="pdf-icon">📄</span>
+        Document de travail — Projet Pilote STMG 2022-2023
+      </a>
+      <p class="pdf-meta">Équipe Économie-Gestion · Lycée Évariste de Parny · Juin 2022 · Document de travail (non exhaustif, non définitif)</p>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <strong>CAMANA-PATAMA Murielle</strong><br>
+    Professeure certifiée de Classe Exceptionnelle — Économie-Gestion option Marketing<br>
+    LGT Louis Payen · Saint-Paul · Académie de La Réunion
+    <br>
+    <a href="https://mcamana974.github.io">← Retour au portfolio</a>
+  </footer>
+
+</body>
+</html>
 
